@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*- 
+
+Type a message
+
 
 # For data manipulation
 import pandas as pd         
@@ -758,41 +762,6 @@ data_test = data_test.drop(['eval_set','order_id'], axis=1)
 data_test.head()
 
 
-# # 4. Create predictive model (fit)
-# The Machine Learning model that we are going to create is based on the XGBoost algorithm.
-# 
-# 
-# ## 4.1 Train XGBoost
-# XGBoost stands for e**X**treme **G**radient **Boost**ing, an algorithm that is used in many winning solutions for Kaggle competitions [(ref)](https://github.com/dmlc/xgboost/tree/master/demo#machine-learning-challenge-winning-solutions). 
-# 
-# XGBoost is an implementation of gradient boosted decision trees designed for speed and performance.
-# 
-# Gradient boosting is an approach where new models are created that predict the residuals or errors of prior models and then added together to make the final prediction. It is called gradient boosting because it uses a gradient descent algorithm to minimize the loss when adding new models.
-# 
-# To create the predictive model we:
-# 
-# **1** - Load XGBoost's package (is not includes in scikit-learn, but it can interact with it)
-# 
-# **2** - Separate predictors from response and store them into an optimized data structure which works with XGBoost
-# 
-# **3** - Set the hyperparameters of the booster
-# >> - eval_metric: Evaluation metrics for validation data, a default metric will be assigned according to objective (rmse for regression, and error for classification, mean average precision for ranking)
-# >> - max_depth: Maximum depth of a tree
-# >> - colsample_bytree: Denotes the fraction of columns to be randomly samples for each tree.
-# >> - subsample:  Denotes the fraction of observations to be randomly samples for each tree.
-# Lower values make the algorithm more conservative and prevents overfitting but too small values might lead to under-fitting.
-# 
-# **4** - We instantiate a XGBClassifier( ) where you will notice different arguments:
-# >> - objective: This defines the loss function to be minimized. In our example we use binary:logistic –logistic regression for binary classification, returns predicted probability (not class)
-# >> - parameters: Includes all the hyperparameters that were defined in the step 3 - these are special parameters only for our classification problem
-# >> - num_boost_round: Number of boosting iterations
-# 
-# 
-# **5** - Finally we train our model with the X_train and y_train data.
-# 
-# **6** - Get the feature importance that yields from our model
-# 
-# You can read in more detail how to use XGBoost in Python in the following [link](https://www.datacamp.com/community/tutorials/xgboost-in-python)
 
 # In[ ]:
 
