@@ -813,7 +813,7 @@ model.get_xgb_params()
 
 # In[ ]:
 
-''''
+'''
 ###########################
 ## DISABLE WARNINGS
 ###########################
@@ -874,7 +874,7 @@ del [X_train, y_train]
 
 
 model.get_params()
-''''
+'''
 
 # # 5. Apply predictive model (predict)
 # The model that we have created is stored in the **model** object.
