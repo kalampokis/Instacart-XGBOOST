@@ -786,8 +786,7 @@ parameters = {'eval_metric':'logloss',
 ########################################
 ## INSTANTIATE XGBClassifier()
 ########################################
-xgbc = xgb.XGBClassifier(objective='binary:logistic', parameters=parameters, num_boost_round=10, 
-                         gpu_id=0, tree_method = 'gpu_hist')
+xgbc = xgb.XGBClassifier(objective='binary:logistic', parameters=parameters, num_boost_round=10)
 
 ########################################
 ## TRAIN MODEL
@@ -814,7 +813,7 @@ model.get_xgb_params()
 
 # In[ ]:
 
-
+''''
 ###########################
 ## DISABLE WARNINGS
 ###########################
@@ -875,7 +874,7 @@ del [X_train, y_train]
 
 
 model.get_params()
-
+''''
 
 # # 5. Apply predictive model (predict)
 # The model that we have created is stored in the **model** object.
