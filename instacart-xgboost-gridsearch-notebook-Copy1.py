@@ -134,27 +134,6 @@ op = orders.merge(order_products_prior, on='order_id', how='inner')
 op.head()
 
 
-# The table contains for all the customers **(user_id)**: <br>
-# &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ➡︎ the orders **(order_id)** that they have placed accompanied with: <br>
-# &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ➡︎ the products **(product_id)** that have been bought in each order
-
-# # 2. Create Predictor Variables
-# We are now ready to identify and calculate predictor variables based on the provided data. We can create various types of predictors such as:
-# * <b>User predictors</b> describing the behavior of a user e.g. total number of orders of a user.
-# * <b>Product predictors</b> describing characteristics of a product e.g. total number of times a product has been purchased.
-# * <b>User & product predictors</b> describing the behavior of a user towards a specific product e.g. total times a user ordered a specific product.
-
-# ## 2.1 Create user predictors
-# We create the following predictors:
-# - 2.1.1 Number of orders per customer
-# - 2.1.2 How frequent a customer has reordered products
-# 
-# ### 2.1.1 Number of orders per customer
-# We calculate the total number of placed orders per customer. We create a **user** DataFrame to store the results.
-
-# In[ ]:
-
-
 ## First approach in one step:
 # Create distinct groups for each user, identify the highest order number in each group, save the new column to a DataFrame
 user = op.groupby('user_id')['order_number'].max().to_frame('u_total_orders')
