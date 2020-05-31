@@ -863,7 +863,7 @@ xgbc = xgb.XGBClassifier(objective='binary:logistic', eval_metric='logloss', num
 ##############################################
 ## DEFINE HOW TO TRAIN THE DIFFERENT MODELS
 #############################################
-gridsearch = GridSearchCV(xgbc, paramGrid, cv=3, verbose=2, n_jobs=1)
+gridsearch = GridSearchCV(xgbc, paramGrid, cv=5, verbose=2, n_jobs=1)
 
 ################################################################
 ## TRAIN THE MODELS
