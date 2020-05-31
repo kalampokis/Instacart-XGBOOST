@@ -796,7 +796,7 @@ model = xgbc.fit(X_train, y_train)
 ##################################
 # FEATURE IMPORTANCE - GRAPHICAL
 ##################################
-xgb.plot_importance(model)
+#xgb.plot_importance(model)
 
 
 # ## 4.2 Fine-tune your model
@@ -1025,24 +1025,3 @@ print(sub.shape[0]==75000)
 sub.to_csv('sub.csv', index=False)
 
 
-# # 7. Get F1 Score
-
-# Before you are ready to submit your prediction to the competion, **ensure that**:
-# - **You have used all of the offered data and not the 10% that was defined as an optional step on section 1.2**
-# 
-# To submit your prediction and get the F1 score you have to:
-# 1. Commit this notebook and wait for the results 
-# 2. Go to view mode (where you see your notebook but you can't edit it)
-# 3. Click on the data section from your left panel
-# 4. Find the sub.csv (on outputs), below the section with the data from Instacart
-# 5. Click on "Submit to competition" button
-# 
-# Regarding step 1:
-# >This step might take long. If it exceeds 20-30 minutes it would be wise to check your code again. Kaggle won't inform you during commit if the notebook has:
-# - syntax errors
-# - if it exceeds 16 GB RAM
-# - if it takes an algorirthms too much to train or predict
-# 
-# >Any new commit:
-# - can't take more than 9 hours
-# - doesn't stop if it exceeds the 16 GB RAM - you will just receive an error of unsuccesful commit after 9 hours
