@@ -206,16 +206,16 @@ u_last_five.columns = ['size_last5']
 u_last_five.head()
 
 #Mean of last 5 orders of each customer
-#u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
-#u_last_five.head()
+u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
+u_last_five.head()
 
 #Max days of 5 last orders for each user
-#u_last_five ['max_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].max()
-#u_last_five.head()
+u_last_five ['max_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].max()
+u_last_five.head()
 
 #Mean days of 5 last orders for each user
-#u_last_five ['mean_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].mean()
-#u_last_five.head()
+u_last_five ['mean_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].mean()
+u_last_five.head()
 
 #Merge user with u_reorder
 user = user.merge(u_reorder, on='user_id', how='left')
@@ -299,9 +299,8 @@ p_reorder['avg_position'] = op.groupby ('product_id')[["add_to_cart_order"]].mea
 p_reorder.head()
 
 #Probability of reordered for each product within last 5 orders of the users
-op5_ratio = op5.groupby ('product_id')["reordered"].mean().to_frame ('p_reorder_last5')
-op5_ratio = op5_ratio.reset_index()
-op5_ratio.head()
+prd['p_reorder_last5'] = op5.reordered/5
+prd.head()
 
 # ### 2.2.2.3 Merge the new feature on prd DataFrame
 # The new feature will be merged with the prd DataFrame (section 2.2.1) which keep all the features based on products. We perform a left join as we want to keep all the products that we have created on the prd DataFrame
@@ -318,9 +317,9 @@ gc.collect()
 prd.head()
 
 #Merge the prd DataFrame with op5
-prd = prd.merge(op5_ratio, on='product_id', how='left')
-gc.collect()
-prd.head()
+#prd = prd.merge(op5_ratio, on='product_id', how='left')
+#gc.collect()
+#prd.head()
 
 # #### 2.2.2.4 Fill NaN values
 # As you may notice, there are product with NaN values. This regards the products that have been purchased less than 40 times from all users and were not included in the p_reorder DataFrame. **As we performed a left join with prd DataFrame, all the rows with products that had less than 40 purchases from all users, will get a NaN value.**
@@ -789,7 +788,8 @@ import xgboost as xgb
 ##########################################
 ## SPLIT DF TO: X_train, y_train (axis=1)
 ##########################################
-X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
+#X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
+X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
 
 ########################################
 ## SET BOOSTER'S PARAMETERS
