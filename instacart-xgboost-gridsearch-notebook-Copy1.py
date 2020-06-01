@@ -784,7 +784,7 @@ data_test.head()
 ## IMPORT REQUIRED PACKAGES
 ###########################
 import xgboost as xgb
-
+from sklearn.model_selection import train_test_split
 ##########################################
 ## SPLIT DF TO: X_train, y_train (axis=1)
 ##########################################
