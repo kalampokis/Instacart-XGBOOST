@@ -299,8 +299,9 @@ p_reorder['avg_position'] = op.groupby ('product_id')[["add_to_cart_order"]].mea
 p_reorder.head()
 
 #Probability of reordered for each product within last 5 orders of the users
-prd['p_reorder_last5'] = op5.reordered/5
-prd.head()
+op5_ratio = op5.groupby ('product_id')["reordered"].mean().to_frame ('p_reorder_last5')
+op5_ratio = op5_ratio.reset_index()
+op5_ratio.head()
 
 # ### 2.2.2.3 Merge the new feature on prd DataFrame
 # The new feature will be merged with the prd DataFrame (section 2.2.1) which keep all the features based on products. We perform a left join as we want to keep all the products that we have created on the prd DataFrame
@@ -317,9 +318,9 @@ gc.collect()
 prd.head()
 
 #Merge the prd DataFrame with op5
-#prd = prd.merge(op5_ratio, on='product_id', how='left')
-#gc.collect()
-#prd.head()
+prd = prd.merge(op5_ratio, on='product_id', how='left')
+gc.collect()
+prd.head()
 
 # #### 2.2.2.4 Fill NaN values
 # As you may notice, there are product with NaN values. This regards the products that have been purchased less than 40 times from all users and were not included in the p_reorder DataFrame. **As we performed a left join with prd DataFrame, all the rows with products that had less than 40 purchases from all users, will get a NaN value.**
