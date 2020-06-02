@@ -354,7 +354,6 @@ prd.head()
 uxp = op.groupby(['user_id', 'product_id'])['order_id'].count().to_frame('uxp_total_bought')
 uxp.head()
 
-
 # In[ ]:
 
 
@@ -362,6 +361,15 @@ uxp.head()
 uxp = uxp.reset_index()
 uxp.head()
 
+uxp_last5 = op5.groupby(['user_id', 'product_id'])['order_id'].count().to_frame('uxp_total_bought')
+uxp_last5.head()
+
+uxp_last5 = uxp_last5.reset_index()
+uxp_last5 = uxp_last5.fillna(0)
+uxp_last5.head()
+
+uxp = uxp.merge (uxp_last5 , on=['user_id', 'product_id'], how='left')
+uxp.head()
 
 # ### 2.3.2 How frequently a customer bought a product after its first purchase
 # This ratio is a metric that describes how many times a user bought a product out of how many times she had the chance to a buy it (starting from her first purchase of the product):
