@@ -561,6 +561,10 @@ uxp.head()
 uxp['med_days_last5'] = op5.groupby('user_id')[["days_since_prior_order"]].median()
 uxp.head()
 
+#Max days days of orders for each product of users
+uxp['uxp_max_days'] = op.groupby('user_id')[["days_since_prior_order"]].max()
+uxp.head()
+
 # #### 2.3.3.6 Fill NaN values
 # If you check uxp DataFrame you will notice that some rows have NaN values for our new feature. This happens as there might be products that the customer did not buy on its last five orders. For these cases, we turn NaN values into zero (0) with .fillna(0) method.
 
@@ -798,7 +802,7 @@ from sklearn.model_selection import train_test_split
 ## SPLIT DF TO: X_train, y_train (axis=1)
 ##########################################
 #X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
-X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
+#X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
 
 ########################################
 ## SET BOOSTER'S PARAMETERS
