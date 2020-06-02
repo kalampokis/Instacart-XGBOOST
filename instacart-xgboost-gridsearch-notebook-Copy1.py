@@ -230,13 +230,13 @@ gc.collect()
 user.head()
 
 #Days of week and hour of the day of the last 5 orders for each user
-user_day_hour = pd.merge(user, op5[['user_id', 'order_dow', 'order_hour_of_day']], on='user_id', how='left')
-user_day_hour.head()
+#user_day_hour = pd.merge(user, op5[['user_id', 'order_dow', 'order_hour_of_day']], on='user_id', how='left')
+#user_day_hour.head()
 
-user = user.merge (user_day_hour, on = "user_id" , how ="left")
-del user_day_hour
-gc.collect()
-user.head()
+#user = user.merge (user_day_hour, on = "user_id" , how ="left")
+#del user_day_hour
+#gc.collect()
+#user.head()
 # ## 2.2 Create product predictors
 # We create the following predictors:
 # - 2.2.1 Number of purchases for each product
