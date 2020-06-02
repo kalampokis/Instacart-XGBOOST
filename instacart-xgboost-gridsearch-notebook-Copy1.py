@@ -558,8 +558,8 @@ uxp['max_days_last5'] = op5.groupby('user_id')[["days_since_prior_order"]].max()
 uxp.head()
 
 #Mean days of 5 last orders for each product of users
-#uxp['mean_days_last5'] = op5.groupby('user_id')[["days_since_prior_order"]].mean()
-#uxp.head()
+uxp['med_days_last5'] = op5.groupby('user_id')[["days_since_prior_order"]].median()
+uxp.head()
 
 # #### 2.3.3.6 Fill NaN values
 # If you check uxp DataFrame you will notice that some rows have NaN values for our new feature. This happens as there might be products that the customer did not buy on its last five orders. For these cases, we turn NaN values into zero (0) with .fillna(0) method.
