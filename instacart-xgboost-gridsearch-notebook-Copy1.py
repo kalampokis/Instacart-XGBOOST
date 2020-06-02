@@ -913,7 +913,18 @@ del [X_train, y_train]
 
 model.get_params()
 '''
+import pandas as pd
+import xgboost as xgb
+import numpy as np
+from sklearn.model_selection import RandomizedSearchCV
 
+gbm_param_grid = {'learning_rate': np.arange(0.05,1.05,.05),
+'n_estimators': [200],
+'subsample': np.arange(0.05,1.05,.05)}
+gbm = xgb.XGBRegressor()
+randomized_mse = RandomizedSearchCV(estimator=gbm, param_distributions=gbm_param_grid,
+n_iter=25, scoring='neg_mean_squared_error', cv=4, verbose=1)
+randomized_mse.fit(X, y)
 # # 5. Apply predictive model (predict)
 # The model that we have created is stored in the **model** object.
 # At this step we predict the values for the test data and we store them in a new column in the same DataFrame.
