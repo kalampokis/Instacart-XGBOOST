@@ -9,12 +9,9 @@ sudo apt-get install python-pip
 
 git config --global credential.helper gcloud.sh
 
-git clone https://github.com/kalampokis/Instacart-XGBOOST.git
-
 pip install sklearn
 pip install pandas
 pip install Kaggle
-
 pip install xgboost 
 
 mkdir -p ~/.kaggle
