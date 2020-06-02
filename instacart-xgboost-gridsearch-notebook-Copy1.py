@@ -801,7 +801,7 @@ from sklearn.model_selection import train_test_split
 ##########################################
 ## SPLIT DF TO: X_train, y_train (axis=1)
 ##########################################
-#X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
+X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
 #X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
 
 ########################################
