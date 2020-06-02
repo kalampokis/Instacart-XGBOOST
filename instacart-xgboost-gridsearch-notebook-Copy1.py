@@ -206,8 +206,8 @@ u_last_five.columns = ['size_last5']
 u_last_five.head()
 
 #Mean of last 5 orders of each customer
-#u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
-#u_last_five.head()
+u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
+u_last_five.head()
 
 #Max days of 5 last orders for each user
 #u_last_five ['max_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].max()
@@ -227,6 +227,11 @@ user.head()
 user = user.merge (u_last_five, on = "user_id" , how ="left")
 del u_last_five
 gc.collect()
+user.head()
+
+#Days of week and hour of the day of the last 5 orders for each user
+user = user.merge ( op5 [['user_id', 'order_dow', 'order_hour_of_day']], on='user_id', how='left')
+user = user.fillna(0)
 user.head()
 
 # ## 2.2 Create product predictors
@@ -485,44 +490,44 @@ uxp_ratio.head()
 del [times, first_order_no, span]
 
 #Find one-shot ratio (1)
-#item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
-#item.columns = ['total']
-#item.head()
+item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
+item.columns = ['total']
+item.head()
 
 #Find one-shot ratio (2)
-#item_one = item [item.total==1]
-#item_one.head()
+item_one = item [item.total==1]
+item_one.head()
 
 #Find one-shot ratio (3)
-#item_one = item_one.groupby('product_id')[['total']].count()
-#item_one.columns = ['customers_one_shot']        
-#item_one.head()
+item_one = item_one.groupby('product_id')[['total']].count()
+item_one.columns = ['customers_one_shot']        
+item_one.head()
 
-#item = item.reset_index(1)
-#item.head()
+item = item.reset_index(1)
+item.head()
 
 #Find unique customers of each product
-#item_size = item.groupby('product_id')[['user_id']].count()
-#item_size.columns = ['unique_customers']
-#item_size.head()
+item_size = item.groupby('product_id')[['user_id']].count()
+item_size.columns = ['unique_customers']
+item_size.head()
 
 #Merge the results
-#results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
-#results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
-#results.head()
+results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
+results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
+results.head()
 
 #Merge uxp_ratio with the results
-#uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
-#uxp_ratio.head()
+uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
+uxp_ratio.head()
 
 #Fill NaN values
-#uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
-#uxp_ratio.head()
+uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
+uxp_ratio.head()
 
 #Delete 
-#del [item, item_size, item_one, results]
-#uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
-#uxp_ratio.head()
+del [item, item_size, item_one, results]
+uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
+uxp_ratio.head()
 
 # ### 2.3.2.4 Merge the final feature with uxp DataFrame
 # The new feature will be merged with the uxp DataFrame (section 2.3.1) which keep all the features based on combinations of user-products. We perform a left join as we want to keep all the user-products that we have created on the uxp DataFrame
@@ -801,8 +806,8 @@ from sklearn.model_selection import train_test_split
 ##########################################
 ## SPLIT DF TO: X_train, y_train (axis=1)
 ##########################################
-X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
-#X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
+#X_train, y_train = data_train.drop('reordered', axis=1), data_train.reordered
+X_train, X_val, y_train, y_val = train_test_split(data_train.drop('reordered', axis=1), data_train.reordered, test_size=0.8, random_state=42)
 
 ########################################
 ## SET BOOSTER'S PARAMETERS
