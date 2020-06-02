@@ -206,8 +206,8 @@ u_last_five.columns = ['size_last5']
 u_last_five.head()
 
 #Mean of last 5 orders of each customer
-#u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
-#u_last_five.head()
+u_last_five ['mean_size_last5']= u_last_five.size_last5 / 5
+u_last_five.head()
 
 #Max days of 5 last orders for each user
 #u_last_five ['max_days_5'] = op5.groupby ('user_id') [["days_since_prior_order"]].max()
@@ -493,31 +493,31 @@ uxp_ratio.head()
 del [times, first_order_no, span]
 
 #Find one-shot ratio (1)
-item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
-item.columns = ['total']
-item.head()
+#item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
+#item.columns = ['total']
+#item.head()
 
 #Find one-shot ratio (2)
-item_one = item [item.total==1]
-item_one.head()
+#item_one = item [item.total==1]
+#item_one.head()
 
 #Find one-shot ratio (3)
-item_one = item_one.groupby('product_id')[['total']].count()
-item_one.columns = ['customers_one_shot']        
-item_one.head()
+#item_one = item_one.groupby('product_id')[['total']].count()
+#item_one.columns = ['customers_one_shot']        
+#item_one.head()
 
-item = item.reset_index(1)
-item.head()
+#item = item.reset_index(1)
+#item.head()
 
 #Find unique customers of each product
-item_size = item.groupby('product_id')[['user_id']].count()
-item_size.columns = ['unique_customers']
-item_size.head()
+#item_size = item.groupby('product_id')[['user_id']].count()
+#item_size.columns = ['unique_customers']
+#item_size.head()
 
 #Merge the results
-results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
-results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
-results.head()
+#results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
+#results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
+#results.head()
 
 #Merge uxp_ratio with the results
 uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
