@@ -520,17 +520,17 @@ del [times, first_order_no, span]
 #results.head()
 
 #Merge uxp_ratio with the results
-uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
-uxp_ratio.head()
+#uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
+#uxp_ratio.head()
 
 #Fill NaN values
-uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
-uxp_ratio.head()
+#uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
+#uxp_ratio.head()
 
 #Delete 
-del [item, item_size, item_one, results]
-uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
-uxp_ratio.head()
+#del [item, item_size, item_one, results]
+#uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
+#uxp_ratio.head()
 
 # ### 2.3.2.4 Merge the final feature with uxp DataFrame
 # The new feature will be merged with the uxp DataFrame (section 2.3.1) which keep all the features based on combinations of user-products. We perform a left join as we want to keep all the user-products that we have created on the uxp DataFrame
