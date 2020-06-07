@@ -918,7 +918,6 @@ import numpy as np
 import xgboost as xgb
 from sklearn.model_selection import RandomizedSearchCV
 # Create the parameter grid: gbm_param_grid 
-data_dmatrix = xgbDMatrix (data = X, label = y)
 gbm_param_grid = {
     'n_estimators': [25],
     'max_depth': range(2, 12)
@@ -933,7 +932,7 @@ randomized_mse = RandomizedSearchCV(estimator=gbm,cv=4,n_iter=5,verbose=1,
                                     scoring='neg_mean_squared_error')
 
 # Fit randomized_mse to the data
-randomized_mse.fit(X,y)
+randomized_mse.fit(X_train,y_train)
 
 model.get_params()
 # # 5. Apply predictive model (predict)
