@@ -493,44 +493,44 @@ uxp_ratio.head()
 del [times, first_order_no, span]
 
 #Find one-shot ratio (1)
-item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
-item.columns = ['total']
-item.head()
+#item = op.groupby (['product_id', 'user_id'])[['order_id']].count()
+#item.columns = ['total']
+#item.head()
 
 #Find one-shot ratio (2)
-item_one = item [item.total==1]
-item_one.head()
+#item_one = item [item.total==1]
+#item_one.head()
 
 #Find one-shot ratio (3)
-item_one = item_one.groupby('product_id')[['total']].count()
-item_one.columns = ['customers_one_shot']        
-item_one.head()
+#item_one = item_one.groupby('product_id')[['total']].count()
+#item_one.columns = ['customers_one_shot']        
+#item_one.head()
 
-item = item.reset_index(1)
-item.head()
+#item = item.reset_index(1)
+#item.head()
 
 #Find unique customers of each product
-item_size = item.groupby('product_id')[['user_id']].count()
-item_size.columns = ['unique_customers']
-item_size.head()
+#item_size = item.groupby('product_id')[['user_id']].count()
+#item_size.columns = ['unique_customers']
+#item_size.head()
 
 #Merge the results
-results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
-results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
-results.head()
+#results = pd.merge (item_one, item_size, on = 'product_id', how = 'right')
+#results['one_shot_ratio'] = results ['customers_one_shot']/results['unique_customers']
+#results.head()
 
 #Merge uxp_ratio with the results
-uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
-uxp_ratio.head()
+#uxp_ratio = uxp_ratio.merge (results, on = 'product_id', how = 'left')
+#uxp_ratio.head()
 
 #Fill NaN values
-uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
-uxp_ratio.head()
+#uxp_ratio['one_shot_ratio'] = uxp_ratio['one_shot_ratio'].fillna(0)
+#uxp_ratio.head()
 
 #Delete 
-del [item, item_size, item_one, results]
-uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
-uxp_ratio.head()
+#del [item, item_size, item_one, results]
+#uxp_ratio = uxp_ratio.drop(['customers_one_shot', 'unique_customers'], axis=1)
+#uxp_ratio.head()
 
 # ### 2.3.2.4 Merge the final feature with uxp DataFrame
 # The new feature will be merged with the uxp DataFrame (section 2.3.1) which keep all the features based on combinations of user-products. We perform a left join as we want to keep all the user-products that we have created on the uxp DataFrame
@@ -855,17 +855,17 @@ model.get_xgb_params()
 ###########################
 ## DISABLE WARNINGS
 ###########################
-#import sys
-#import warnings
+import sys
+import warnings
 
-#if not sys.warnoptions:
-#    warnings.simplefilter("ignore")
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
 
 ###########################
 ## IMPORT REQUIRED PACKAGES
 ###########################
-#import xgboost as xgb
-#from sklearn.model_selection import GridSearchCV
+import xgboost as xgb
+from sklearn.model_selection import GridSearchCV
 
 ####################################
 ## SET BOOSTER'S RANGE OF PARAMETERS
@@ -873,37 +873,37 @@ model.get_xgb_params()
 # Be cautious what parameters you enter in paramiGrid section.
 # More paremeters means that GridSearch will create and evaluate more models.
 ####################################    
-#paramGrid = {"max_depth":[5,10,15],
-#           "colsample_bytree":[0.3,0.4,0.5]}  
+paramGrid = {"max_depth":[5,10],
+           "colsample_bytree":[0.3,0.4]}  
 
 ########################################
 ## INSTANTIATE XGBClassifier()
 ########################################
-#xgbc = xgb.XGBClassifier(objective='binary:logistic', eval_metric='logloss', num_boost_round=10, gpu_id=0, tree_method = 'gpu_hist')
+xgbc = xgb.XGBClassifier(objective='binary:logistic', eval_metric='logloss', num_boost_round=10, gpu_id=0, tree_method = 'gpu_hist')
 
 ##############################################
 ## DEFINE HOW TO TRAIN THE DIFFERENT MODELS
 #############################################
-#gridsearch = GridSearchCV(xgbc, paramGrid, cv=5, verbose=2, n_jobs=1)
+gridsearch = GridSearchCV(xgbc, paramGrid, cv=3, verbose=2, n_jobs=1)
 
 ################################################################
 ## TRAIN THE MODELS
 ### - with the combinations of different parameters
 ### - here is where GridSearch will be exeucuted
 #################################################################
-#model = gridsearch.fit(X_train, y_train)
+model = gridsearch.fit(X_train, y_train)
 
 ##################################
 ## OUTPUT(S)
 ##################################
 # Print the best parameters
-#print("The best parameters are: /n",  gridsearch.best_params_)
+print("The best parameters are: /n",  gridsearch.best_params_)
 
 # Store the model for prediction (chapter 5)
-#model = gridsearch.best_estimator_
+model = gridsearch.best_estimator_
 
 # Delete X_train , y_train
-#del [X_train, y_train]
+del [X_train, y_train]
 
 
 # The model has now the new parameters from GridSearchCV:
@@ -911,7 +911,7 @@ model.get_xgb_params()
 # In[ ]:
 
 
-#model.get_params()
+model.get_params()
 '''
 
 # # 5. Apply predictive model (predict)
