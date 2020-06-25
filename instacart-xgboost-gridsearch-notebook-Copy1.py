@@ -16,7 +16,7 @@ gc.enable()                       # Activate
 
 # connect to kaggle api and download files (zip)
 from kaggle.api.kaggle_api_extended import KaggleApi
-api = KaggleApi({"username":"charatrypologou","key":"9bab08071e50040cb77728875d96e02c"})
+api = KaggleApi({"username":"username":"bba17111","key":"1ab8abb57bb0300a7a61735992d69fcc"})
 api.authenticate()
 files = api.competition_download_files("Instacart-Market-Basket-Analysis")
 
