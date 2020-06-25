@@ -229,19 +229,12 @@ del u_last_five
 gc.collect()
 user.head()
 
-#Days of week and hour of the day of the last 5 orders for each user
-#user_day_hour = pd.merge(user, op5[['user_id', 'order_dow', 'order_hour_of_day']], on='user_id', how='left')
-#user_day_hour.head()
 
-#user = user.merge (user_day_hour, on = "user_id" , how ="left")
-#del user_day_hour
-#gc.collect()
-#user.head()
 # ## 2.2 Create product predictors
 # We create the following predictors:
 # - 2.2.1 Number of purchases for each product
 # - 2.2.2 What is the probability for a product to be reordered
-# 
+#
 # ### 2.2.1 Number of purchases for each product
 # We calculate the total number of purchases for each product (from all customers). We create a **prd** DataFrame to store the results.
 
@@ -369,15 +362,19 @@ uxp.head()
 uxp = uxp.reset_index()
 uxp.head()
 
+#Number of purchases for each product on 5 last orders of users
 uxp_last5 = op5.groupby(['user_id', 'product_id'])['order_id'].count().to_frame('uxp_total_bought_last5')
 uxp_last5.head()
 
+#Reset the index
 uxp_last5 = uxp_last5.reset_index()
 uxp_last5 = uxp_last5.fillna(0)
 uxp_last5.head()
 
+#Merge the results
 uxp = uxp.merge (uxp_last5 , on=['user_id', 'product_id'], how='left')
 uxp.head()
+
 del uxp_last5
 # ### 2.3.2 How frequently a customer bought a product after its first purchase
 # This ratio is a metric that describes how many times a user bought a product out of how many times she had the chance to a buy it (starting from her first purchase of the product):
@@ -855,17 +852,17 @@ model.get_xgb_params()
 ###########################
 ## DISABLE WARNINGS
 ###########################
-#import sys
-#import warnings
+import sys
+import warnings
 
-#if not sys.warnoptions:
-#    warnings.simplefilter("ignore")
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
 
 ###########################
 ## IMPORT REQUIRED PACKAGES
 ###########################
-#import xgboost as xgb
-#from sklearn.model_selection import GridSearchCV
+import xgboost as xgb
+from sklearn.model_selection import GridSearchCV
 
 ####################################
 ## SET BOOSTER'S RANGE OF PARAMETERS
@@ -873,37 +870,37 @@ model.get_xgb_params()
 # Be cautious what parameters you enter in paramiGrid section.
 # More paremeters means that GridSearch will create and evaluate more models.
 ####################################    
-#paramGrid = {"max_depth":[5,10],
+paramGrid = {"max_depth":[5,10],
            "colsample_bytree":[0.3,0.4]}  
 
 ########################################
 ## INSTANTIATE XGBClassifier()
 ########################################
-#xgbc = xgb.XGBClassifier(objective='binary:logistic', eval_metric='logloss', num_boost_round=10, gpu_id=0, tree_method = 'gpu_hist')
+xgbc = xgb.XGBClassifier(objective='binary:logistic', eval_metric='logloss', num_boost_round=10, gpu_id=0, tree_method = 'gpu_hist')
 
 ##############################################
 ## DEFINE HOW TO TRAIN THE DIFFERENT MODELS
 #############################################
-#gridsearch = GridSearchCV(xgbc, paramGrid, cv=3, verbose=2, n_jobs=1)
+gridsearch = GridSearchCV(xgbc, paramGrid, cv=3, verbose=2, n_jobs=1)
 
 ################################################################
 ## TRAIN THE MODELS
 ### - with the combinations of different parameters
 ### - here is where GridSearch will be exeucuted
 #################################################################
-#model = gridsearch.fit(X_train, y_train)
+model = gridsearch.fit(X_train, y_train)
 
 ##################################
 ## OUTPUT(S)
 ##################################
 # Print the best parameters
-#print("The best parameters are: /n",  gridsearch.best_params_)
+print("The best parameters are: /n",  gridsearch.best_params_)
 
 # Store the model for prediction (chapter 5)
-#model = gridsearch.best_estimator_
+model = gridsearch.best_estimator_
 
 # Delete X_train , y_train
-#del [X_train, y_train]
+del [X_train, y_train]
 
 
 # The model has now the new parameters from GridSearchCV:
@@ -911,30 +908,34 @@ model.get_xgb_params()
 # In[ ]:
 
 
-#model.get_params()
+model.get_params()
 '''
-import pandas as pd
-import numpy as np
-import xgboost as xgb
-from sklearn.model_selection import RandomizedSearchCV
+
+
+#The method .RandomizedSearchCV( )
+
+#import pandas as pd
+#import numpy as np
+#import xgboost as xgb
+#from sklearn.model_selection import RandomizedSearchCV
 # Create the parameter grid: gbm_param_grid 
-gbm_param_grid = {
-    'n_estimators': [25],
-    'max_depth': range(2, 12)
-}
+#gbm_param_grid = {
+#    'n_estimators': [25],
+#    'max_depth': range(2, 12)
+#}
 
 # Instantiate the regressor: gbm
-gbm = xgb.XGBRegressor(n_estimators=10)
+#gbm = xgb.XGBRegressor(n_estimators=10)
 
 # Perform random search: grid_mse
-randomized_mse = RandomizedSearchCV(estimator=gbm,cv=4,n_iter=5,verbose=1,
-                                    param_distributions=gbm_param_grid,
-                                    scoring='neg_mean_squared_error')
+#randomized_mse = RandomizedSearchCV(estimator=gbm,cv=4,n_iter=5,verbose=1,
+#                                    param_distributions=gbm_param_grid,
+#                                    scoring='neg_mean_squared_error')
 
 # Fit randomized_mse to the data
-randomized_mse.fit(X_train,y_train)
+#randomized_mse.fit(X_train,y_train)
 
-model.get_params()
+#model.get_params()
 # # 5. Apply predictive model (predict)
 # The model that we have created is stored in the **model** object.
 # At this step we predict the values for the test data and we store them in a new column in the same DataFrame.
